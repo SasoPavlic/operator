@@ -1,0 +1,22 @@
+# pv-dev-data0.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-dev-data0
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /mnt/kvaltko/dev/minio/data0
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - k3s-04

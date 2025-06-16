@@ -1,0 +1,30 @@
+apiVersion: minio.min.io/v2
+kind: Tenant
+metadata:
+  name: minio-prod
+  namespace: minio-prod
+spec:
+  configuration:
+    name: storage-configuration
+
+  requestAutoCert: false
+
+  exposeServices:
+    minio:   true
+    console: true
+
+  pools:
+    - name: pool-0
+      servers: 2
+      volumesPerServer: 2
+
+      volumeClaimTemplate:
+        metadata:
+          name: data
+        spec:
+          storageClassName: local-storage
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 15Gi

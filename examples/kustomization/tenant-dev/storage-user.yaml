@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: storage-user
+  namespace: minio-dev
+type: Opaque
+stringData:
+  # clear-text credentials; no Base64 here
+  CONSOLE_ACCESS_KEY: console
+  CONSOLE_SECRET_KEY: console123
