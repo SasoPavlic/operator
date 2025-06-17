@@ -1,4 +1,3 @@
-# tenant.yaml
 apiVersion: minio.min.io/v2
 kind: Tenant
 metadata:
@@ -8,14 +7,23 @@ spec:
   configuration:
     name: storage-configuration
   requestAutoCert: false
+
+  # Expose both MinIO API and Console as LoadBalancer services
   exposeServices:
     minio:   true
     console: true
+
+  # Pin static IPs via MetalLB annotations
+  serviceMetadata:
+    minioServiceAnnotations:
+      metallb.universe.tf/loadBalancerIPs: "192.168.0.241"
+    consoleServiceAnnotations:
+      metallb.universe.tf/loadBalancerIPs: "192.168.0.242"
+
   pools:
     - name: pool-0
       servers: 1
       volumesPerServer: 1
-      # <— erasureCoding section removed entirely
       volumeClaimTemplate:
         metadata:
           name: data
