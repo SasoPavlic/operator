@@ -6,18 +6,24 @@ metadata:
 spec:
   configuration:
     name: storage-configuration
-
   requestAutoCert: false
 
+  # Expose both MinIO API and Console as LoadBalancer services
   exposeServices:
     minio:   true
     console: true
+
+  # Pin static IPs for production
+  serviceMetadata:
+    minioServiceAnnotations:
+      metallb.universe.tf/loadBalancerIPs: "192.168.0.243"
+    consoleServiceAnnotations:
+      metallb.universe.tf/loadBalancerIPs: "192.168.0.244"
 
   pools:
     - name: pool-0
       servers: 2
       volumesPerServer: 2
-
       volumeClaimTemplate:
         metadata:
           name: data
